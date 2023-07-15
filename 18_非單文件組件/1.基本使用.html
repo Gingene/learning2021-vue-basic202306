@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>基本使用</title>
+  </head>
+  <body>
+    <!-- 
+			Vue中使用元件的三大步驟：
+					一、定義元件(建立元件)
+					二、註冊元件
+					三、使用元件(寫元件標籤)
+
+			一、如何定義一個元件？
+						使用Vue.extend(options)建立，其中options和new Vue(options)時傳入的那個options幾乎一樣，但也有點區別；
+						區別如下：
+								1.el不要寫，為什麼？ ——— 最終所有的元件都要經過一個vm的管理，由vm中的el決定服務哪個容器。
+								2.data必須寫成函數，為什麼？ ———— 避免元件被覆用時，資料存在引用關係。
+						備註：使用template可以組態元件結構。
+
+			二、如何註冊元件？
+							1.局部註冊：靠new Vue的時候傳入components選項
+							2.全域註冊：靠Vue.component('元件名',元件)
+
+			三、編寫元件標籤：
+							<school></school>
+		-->
+    <div id="root">
+      <hello></hello>
+      <h1>{{msg}}</h1>
+      <hr />
+      <!-- 第三步：編寫元件標籤 -->
+      <school></school>
+      <hr />
+      <!-- 第三步：編寫元件標籤 -->
+      <student></student>
+      <student></student>
+    </div>
+    <div id="root2">
+      <hello></hello>
+    </div>
+  </body>
+  <script src="../js/vue.js"></script>
+  <script async>
+    Vue.config.productionTip = false;
+  </script>
+  <script>
+    // 第一步: 創建school組件
+    const school = Vue.extend({
+      template: `
+            <div>
+                <h2>學校名稱: {{schoolName}}</h2>
+                <h2>學校地址: {{address}}</h2>
+                <button @click="showName">點我提示學校名</button>
+            </div>
+        `,
+      // el:'#root', //元件定義時，一定不要寫el組態項，因為最終所有的元件都要被一個vm管理，由vm決定服務於哪個容器。
+      data() {
+        return {
+          schoolName: "銀輝",
+          address: "台北大安",
+        };
+      },
+      methods: {
+        showName() {
+          alert(this.schoolName);
+        },
+      },
+    });
+    // 第一步: 創建student組件
+    const student = Vue.extend({
+      template: `
+            <div>
+                <h2>學生名稱: {{studentName}}</h2>
+                <h2>學生年齡: {{age}}</h2>
+            </div>
+        `,
+      //   el: "#root", // 組件定義時一定不要寫
+      data() {
+        return {
+          studentName: "張三",
+          age: 18,
+        };
+      },
+    });
+
+    const hello = Vue.extend({
+      template: `
+            <div>
+                <h2>你好啊! {{name}}</h2>
+            </div>
+        `,
+      data() {
+        return {
+          name: "Tome",
+        };
+      },
+    });
+
+    Vue.component("hello", hello);
+
+    // 創建vm
+    new Vue({
+      el: "#root",
+      data: {
+        msg: "你好啊!",
+      },
+      // 第二步: 註冊組件(局部註冊)
+      components: {
+        // school: school,
+        school,
+        // student: student,
+        student,
+      },
+    });
+    new Vue({
+      el: "#root2",
+    });
+  </script>
+</html>

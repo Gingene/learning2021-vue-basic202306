@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 
+				條件渲染：
+							1.v-if
+										寫法：
+												(1).v-if="表示式" 
+												(2).v-else-if="表示式"
+												(3).v-else="表示式"
+										適用於：切換頻率較低的場景。
+										特點：不展示的DOM元素直接被移除。
+										注意：v-if可以和:v-else-if、v-else一起使用，但要求結構不能被“打斷”。
+
+							2.v-show
+										寫法：v-show="表示式"
+										適用於：切換頻率較高的場景。
+										特點：不展示的DOM元素未被移除，僅僅是使用樣式隱藏掉
+								
+							3.備註：使用v-if的時，元素可能無法獲取到，而使用v-show一定可以獲取到。
+		 -->
+    <div id="root">
+      <h2>當前的n值是{{n}}</h2>
+      <button @click="n++">點我n+1</button>
+      <!-- 使用v-show做條件渲染 -->
+      <!-- <h2 v-show="false">歡迎來到{{name}}</h2> -->
+      <!-- <h2 v-show="1 === 1">歡迎來到{{name}}</h2> -->
+
+      <!-- 使用v-if做條件渲染 -->
+      <!-- <h2 v-if="false">歡迎來到{{name}}</h2> -->
+      <!-- <h2 v-if="1 === 1">歡迎來到{{name}}</h2> -->
+      <!-- <div v-show="n === 1">Angular</div>
+      <div v-show="n === 2">React</div>
+      <div v-show="n === 3">Vue</div> -->
+
+      <!-- v-else和v-else-if不可中斷 -->
+      <!-- <div v-if="n === 1">Angular</div>
+      <div v-else-if="n === 2">React</div>
+      <div v-else-if="n === 3">Vue</div>
+      <div v-else>哈哈</div> -->
+
+      <!-- template僅能使用 v-if 無法使用v-show-->
+      <template v-if="n === 1">
+        <h2>你好</h2>
+        <h2>Genesis</h2>
+        <h2>台北</h2>
+      </template>
+    </div>
+    <script src="../js/vue.js"></script>
+    <script async>
+      Vue.config.productionTip = false;
+    </script>
+    <script>
+      new Vue({
+        el: "#root",
+        data: {
+          name: "Genesis",
+          n: 0,
+        },
+      });
+    </script>
+  </body>
+</html>

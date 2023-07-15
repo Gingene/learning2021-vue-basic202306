@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue監測數據改變的原理</title>
+  </head>
+  <body>
+    <div id="root">
+      <h1>學校訊息</h1>
+      <h2>學校名稱: {{school.name}}</h2>
+      <h2>學校地址: {{school.address}}</h2>
+      <hr />
+      <h1>學生訊息</h1>
+      <button @click="addGender">添加一個性別屬性，默認值是男</button>
+      <h2>學生姓名: {{student.name}}</h2>
+      <h2 v-if="student.gender">學生性別: {{student.gender}}</h2>
+      <h2>學生年齡: 真實{{student.age.rAge}}，對外{{student.age.sAge}}</h2>
+      <h2>朋友們</h2>
+      <ul>
+        <li v-for="(f, index) in student.friends" :key="index">
+          {{f.name}}-{{f.age}}
+        </li>
+      </ul>
+    </div>
+  </body>
+  <script src="../js/vue.js"></script>
+  <script async>
+    Vue.config.productionTip = false;
+  </script>
+  <script>
+    const vm = new Vue({
+      el: "#root",
+      data: {
+        school: {
+          name: "Genesis",
+          address: "台北",
+        },
+        student: {
+          name: "Tom",
+          age: {
+            rAge: 40,
+            sAge: 29,
+          },
+          friends: [
+            { name: "Jerry", age: 35 },
+            { name: "Tony", age: 36 },
+          ],
+        },
+      },
+      methods: {
+        addGender() {
+          // Vue.set(this.student, "gender", "男");
+          this.$set(this.student, "gender", "男");
+        },
+      },
+    });
+  </script>
+</html>

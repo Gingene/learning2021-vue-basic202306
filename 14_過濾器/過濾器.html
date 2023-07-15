@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>過濾器</title>
+  </head>
+  <body>
+    <!-- 
+			過濾器：
+				定義：對要顯示的資料進行特定格式化後再顯示（適用於一些簡單邏輯的處理）。
+				語法：
+						1.註冊過濾器：Vue.filter(name,callback) 或 new Vue{filters:{}}
+						2.使用過濾器：{{ xxx | 過濾器名}}  或  v-bind:屬性 = "xxx | 過濾器名"
+				備註：
+						1.過濾器也可以接收額外參數、多個過濾器也可以串聯
+						2.並沒有改變原本的資料, 是產生新的對應的資料
+		-->
+    <div id="root">
+      <h2>顯示格式化後的時間</h2>
+      <!-- 計算屬性實現 -->
+      <h3>現在是{{fmtTime}}</h3>
+      <!-- methods實現 -->
+      <h3>現在是{{getFmtTime()}}</h3>
+      <!-- 過濾器實現 -->
+      <h3>現在是{{time | timeFormater}}</h3>
+      <hr />
+      <h3>現在是{{time | timeFormater("YYYY_MM_DD") | mySlice}}</h3>
+      <h3 :x="msg | mySlice">尚矽谷</h3>
+    </div>
+
+    <div id="root2">
+      <h2>{{msg | mySlice}}</h2>
+    </div>
+    <script src="../js/cdnjs.cloudflare.com_ajax_libs_dayjs_1.11.9_dayjs.min.js"></script>
+    <script src="../js/vue.js"></script>
+    <script async>
+      Vue.config.productionTip = false;
+    </script>
+    <script>
+      Vue.filter("mySlice", function (value) {
+        return value.slice(0, 4);
+      });
+
+      new Vue({
+        el: "#root",
+        data: {
+          time: Date.now(), // 時間戳
+          msg: "你好，歡迎來到XXX!",
+        },
+        computed: {
+          fmtTime() {
+            return dayjs(this.time).format("YYYY年MM月D日 HH:mm:ss");
+          },
+        },
+        methods: {
+          getFmtTime() {
+            return dayjs(this.time).format("YYYY年MM月D日 HH:mm:ss");
+          },
+        },
+        filters: {
+          timeFormater(value, str = "YYYY年MM月D日 HH:mm:ss") {
+            return dayjs(value).format(str);
+          },
+          // 局部過濾器
+          //   mySlice(value) {
+          //     return value.slice(0, 4);
+          //   },
+        },
+      });
+
+      new Vue({
+        el: "#root2",
+        data: {
+          msg: "Hello，XXX!",
+        },
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>key的原理</title>
+  </head>
+  <body>
+    <!-- 
+				面試題：react、vue中的key有什麼作用？（key的內部原理）
+						
+						1. 虛擬DOM中key的作用：
+										key是虛擬DOM對象的標識，當資料發生變化時，Vue會根據【新資料】生成【新的虛擬DOM】, 
+										隨後Vue進行【新虛擬DOM】與【舊虛擬DOM】的差異比較，比較規則如下：
+										
+						2.對比規則：
+									(1).舊虛擬DOM中找到了與新虛擬DOM相同的key：
+												①.若虛擬DOM中內容沒變, 直接使用之前的真實DOM！
+												②.若虛擬DOM中內容變了, 則生成新的真實DOM，隨後替換掉頁面中之前的真實DOM。
+
+									(2).舊虛擬DOM中未找到與新虛擬DOM相同的key
+												建立新的真實DOM，隨後渲染到到頁面。
+												
+						3. 用index作為key可能會引發的問題：
+											1. 若對資料進行：逆序新增、逆序刪除等破壞順序操作:
+															會產生沒有必要的真實DOM更新 ==> 介面效果沒問題, 但效率低。
+
+											2. 如果結構中還包含輸入類的DOM：
+															會產生錯誤DOM更新 ==> 介面有問題。
+
+						4. 開發中如何選擇key?:
+											1.最好使用每條資料的唯一標識作為key, 比如id、手機號、身份證號、學號等唯一值。
+											2.如果不存在對資料的逆序新增、逆序刪除等破壞順序操作，僅用於渲染列表用於展示，
+												使用index作為key是沒有問題的。
+		-->
+    <div id="root">
+      <!-- 陣列 -->
+      <h2>人員列表</h2>
+      <button @click.once="add">添加一個老劉</button>
+      <ul>
+        <li v-for="(p, index) in people" :key="">
+          {{p.name}}-{{p.age}}
+          <input type="text" />
+        </li>
+      </ul>
+    </div>
+  </body>
+  <script src="../js/vue.js"></script>
+  <script async>
+    Vue.config.productionTip = false;
+  </script>
+  <script>
+    new Vue({
+      el: "#root",
+      data: {
+        people: [
+          { id: "001", name: "張三", age: 18 },
+          { id: "002", name: "李四", age: 19 },
+          { id: "003", name: "王五", age: 20 },
+        ],
+      },
+      methods: {
+        add() {
+          const p = { id: "004", name: "老劉", age: 40 };
+          this.people.unshift(p);
+        },
+      },
+    });
+
+    function generateUniqueId() {
+      const timestamp = Date.now();
+      const randomNumber = Math.random();
+      const hexadecimalString = randomNumber.toString();
+      return `${timestamp}-${hexadecimalString}`;
+    }
+  </script>
+</html>

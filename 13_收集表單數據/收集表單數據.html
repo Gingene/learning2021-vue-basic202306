@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>收集表單數據</title>
+  </head>
+  <style>
+    .container {
+      width: 1320px;
+      padding: 0 20px;
+      margin: 0 auto;
+    }
+    div {
+      margin: 1rem 0;
+    }
+  </style>
+  <body>
+    <!-- 
+			收集表單資料：
+					若：<input type="text"/>，則v-model收集的是value值，使用者輸入的就是value值。
+					若：<input type="radio"/>，則v-model收集的是value值，且要給標籤組態value值。
+					若：<input type="checkbox"/>
+							1.沒有組態input的value屬性，那麼收集的就是checked（勾選 or 未勾選，是布林值）
+							2.組態input的value屬性:
+									(1)v-model的初始值是非陣列，那麼收集的就是checked（勾選 or 未勾選，是布林值）
+									(2)v-model的初始值是陣列，那麼收集的的就是value組成的陣列
+					備註：v-model的三個修飾符：
+									lazy：失去焦點再收集資料
+									number：輸入字串轉為有效的數字
+									trim：輸入首尾空格過濾
+		-->
+    <div id="root">
+      <div class="container">
+        <h2>填寫表單</h2>
+        <form @submit.prevent="demo">
+          <div class="account">
+            <label for="user-account">帳號:</label>
+            <input
+              type="text"
+              id="user-account"
+              v-model.trim="userInfo.account"
+            />
+          </div>
+          <div class="password">
+            <label for="user-password">密碼:</label>
+            <input
+              type="password"
+              id="user-password"
+              v-model="userInfo.password"
+            />
+          </div>
+          <div class="age">
+            <label for="user-age">年齡:</label>
+            <input type="number" id="user-age" v-model.number="userInfo.age" />
+          </div>
+          <div class="gender">
+            <span>性別:</span>
+            <input
+              type="radio"
+              name="gender"
+              value="male"
+              id="male"
+              v-model="userInfo.gender"
+            />
+            <label for="male">男</label>
+            <input
+              type="radio"
+              name="gender"
+              value="female"
+              id="female"
+              v-model="userInfo.gender"
+            />
+            <label for="female">女</label>
+          </div>
+          <div class="hobby">
+            <span>興趣:</span>
+            <input
+              type="checkbox"
+              value="study"
+              id="study"
+              v-model="userInfo.hobby"
+            />
+            <label for="study">學習</label>
+            <input
+              type="checkbox"
+              value="game"
+              id="game"
+              v-model="userInfo.hobby"
+            />
+            <label for="game">玩遊戲</label>
+            <input
+              type="checkbox"
+              value="sleep"
+              id="sleep"
+              v-model="userInfo.hobby"
+            />
+            <label for="sleep">睡覺</label>
+          </div>
+          <div class="schoolarea">
+            <label for="school">所屬校區:</label>
+            <select name="school" id="school" v-model="userInfo.school">
+              <option value="Taipei">台北</option>
+              <option value="New-Taipei">新北</option>
+              <option value="Taichung">台中</option>
+              <option value="Kaohsiung">高雄</option>
+            </select>
+          </div>
+          <div class="other">
+            <div class="other-message">
+              <label for="other">其他訊息:</label>
+            </div>
+            <textarea
+              name="other"
+              id="other"
+              cols="30"
+              rows="10"
+              v-model.lazy="userInfo.other"
+            ></textarea>
+          </div>
+          <div class="user-check">
+            <input type="checkbox" id="agree" v-model="userInfo.agree" />
+            <label for="agree">閱讀並接受<a href="#">《用戶協議》</a></label>
+          </div>
+          <div class="submit">
+            <button class="btn">提交</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+  <script src="../js/vue.js"></script>
+  <script async>
+    Vue.config.productionTip = false;
+  </script>
+  <script>
+    const vm = new Vue({
+      el: "#root",
+      data: {
+        userInfo: {
+          account: "",
+          password: "",
+          age: 18,
+          gender: "female",
+          hobby: [],
+          school: "Taipei",
+          other: "",
+          agree: "",
+        },
+      },
+      methods: {
+        demo() {
+          const user = JSON.stringify(this.userInfo);
+          console.log(user);
+        },
+      },
+    });
+  </script>
+</html>

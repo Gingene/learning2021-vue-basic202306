@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>模板語法</title>
+  </head>
+  <body>
+    <!-- 
+				Vue範本語法有2大類：
+					1.插值語法：
+							功能：用於解析標籤體內容。
+							寫法：{{xxx}}，xxx是js表示式，且可以直接讀取到data中的所有屬性。
+					2.指令語法：
+							功能：用於解析標籤（包括：標籤屬性、標籤體內容、繫結事件.....）。
+							舉例：v-bind:href="xxx" 或  簡寫為 :href="xxx"，xxx同樣要寫js表示式，
+									 且可以直接讀取到data中的所有屬性。
+							備註：Vue中有很多的指令，且形式都是：v-????，此處我們只是拿v-bind舉個例子。
+
+		 -->
+    <div id="root">
+      <h2>插值語法</h2>
+      <p>你好，{{name}}</p>
+      <hr />
+      <h2>指令語法</h2>
+      <a :href="url">點我去學習</a>
+    </div>
+  </body>
+  <script src="../js/vue.js"></script>
+  <script async>
+    Vue.config.productionTip = false; //阻止 vue 在啟動時生成生產提示。
+  </script>
+  <script>
+    new Vue({
+      // el: document.querySelector("#root")
+      el: "#root",
+      data: {
+        name: "Genesis",
+        url: "http://www.atguigu.com",
+      },
+    });
+  </script>
+</html>

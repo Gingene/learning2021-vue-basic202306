@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vuecomponent</title>
+  </head>
+  <body>
+    <!-- 
+			關於VueComponent：
+						1.school元件本質是一個名為VueComponent的建構函式，且不是程式設計師定義的，是Vue.extend生成的。
+
+						2.我們只需要寫<school/>或<school></school>，Vue解析時會幫我們建立school元件的實例對象，
+							即Vue幫我們執行的：new VueComponent(options)。
+
+						3.特別注意：每次呼叫Vue.extend，返回的都是一個全新的VueComponent！！！！
+
+						4.關於this指向：
+								(1).元件組態中：
+											data函數、methods中的函數、watch中的函數、computed中的函數 它們的this均是【VueComponent實例對象】。
+								(2).new Vue(options)組態中：
+											data函數、methods中的函數、watch中的函數、computed中的函數 它們的this均是【Vue實例對象】。
+
+						5.VueComponent的實例對象，以後簡稱vc（也可稱之為：元件實例對象）。
+							Vue的實例對象，以後簡稱vm。
+		-->
+    <div id="root">
+      <school></school>
+      <hello></hello>
+    </div>
+  </body>
+  <script src="../js/vue.js"></script>
+  <script async>
+    Vue.config.productionTip = false;
+  </script>
+  <script>
+    // 定義school組件
+    const school = Vue.extend({
+      template: `
+            <div>
+                <h2>學校名稱: {{schoolName}}</h2>
+                <h2>學校地址: {{address}}</h2>
+                <button @click="showName">點我提示學校名</button>
+            </div>
+        `,
+      data() {
+        return {
+          schoolName: "銀輝",
+          address: "台北大安",
+        };
+      },
+      methods: {
+        showName() {
+          console.log(this);
+        },
+      },
+    });
+
+    const test = Vue.extend({
+      template: `<span>Genesis</span>`,
+    });
+
+    // 定義hello組件
+    const hello = Vue.extend({
+      template: `
+        <div>
+            <h2>{{msg}}</h2>
+            <test></test>    
+        </div>
+      `,
+      data() {
+        return {
+          msg: "你好啊!",
+        };
+      },
+      components: { test },
+    });
+
+    // console.log("@", school);
+    // console.log("#", hello);
+
+    // 創建vm
+    const vm = new Vue({
+      el: "#root",
+      components: { school, hello },
+    });
+  </script>
+</html>

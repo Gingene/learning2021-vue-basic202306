@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>firstVue</title>
+  </head>
+  <body>
+    <!-- 
+			初識Vue：
+				1.想讓Vue工作，就必須建立一個Vue實例，且要傳入一個組態對象；
+				2.root容器裡的程式碼依然符合html規範，只不過混入了一些特殊的Vue語法；
+				3.root容器裡的程式碼被稱為【Vue範本】；
+				4.Vue實例和容器是一一對應的；
+				5.真實開發中只有一個Vue實例，並且會配合著元件一起使用；
+				6.{{xxx}}中的xxx要寫js表示式，且xxx可以自動讀取到data中的所有屬性；
+				7.一旦data中的資料發生改變，那麼頁面中用到該資料的地方也會自動更新；
+
+				注意區分：js表示式 和 js程式碼(語句)
+						1.表示式：一個表示式會產生一個值，可以放在任何一個需要值的地方：
+									(1). a
+									(2). a+b
+									(3). demo(1)
+									(4). x === y ? 'a' : 'b'
+
+						2.js程式碼(語句)
+									(1). if(){}
+									(2). for(){}
+		-->
+    <div id="root">
+      <h1>Hello, {{message}}</h1>
+    </div>
+  </body>
+  <script src="../js/vue.js"></script>
+  <script async>
+    Vue.config.productionTip = false;
+  </script>
+  <script>
+    new Vue({
+      // el: document.querySelector("#root")
+      el: "#root",
+      data: {
+        message: "Genesis",
+      },
+    });
+  </script>
+</html>

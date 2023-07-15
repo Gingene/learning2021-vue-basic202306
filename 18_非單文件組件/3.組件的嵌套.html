@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>組件的嵌套</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="../js/vue.js"></script>
+  <script async>
+    Vue.config.productionTip = false;
+  </script>
+  <script>
+    // 定義student組件
+    const student = Vue.extend({
+      template: `
+            <div>
+                <h2>學生姓名: {{studentName}}</h2>
+                <h2>學生年齡: {{age}}</h2>
+            </div>
+        `,
+      data() {
+        return {
+          studentName: "張三",
+          age: 18,
+        };
+      },
+    });
+
+    // 定義school組件
+    const school = Vue.extend({
+      template: `
+            <div>
+                <h2>學校名稱: {{schoolName}}</h2>
+                <h2>學校地址: {{address}}</h2>
+                <student></student>
+            </div>
+        `,
+      data() {
+        return {
+          schoolName: "銀輝",
+          address: "台北大安",
+        };
+      },
+      // 註冊組件(局部)
+      components: {
+        student,
+      },
+    });
+
+    // 定義Hello組件
+    const hello = Vue.extend({
+      template: `<h1>{{msg}}</h1>`,
+      data() {
+        return {
+          msg: "歡迎來到銀輝學習",
+        };
+      },
+    });
+
+    // 定義app組件
+    const app = Vue.extend({
+      template: `
+            <div>
+                <hello></hello>
+                <school></school>
+            </div>
+        `,
+      components: {
+        school,
+        hello,
+      },
+    });
+
+    new Vue({
+      template: `<app></app>`,
+      el: "#root",
+      // 註冊組件(局部)
+      components: { app },
+    });
+  </script>
+</html>

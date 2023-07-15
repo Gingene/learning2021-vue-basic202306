@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root">
+      <h2>人員列表</h2>
+      <input type="text" placeholder="請輸入名字" v-model="keyword" />
+      <ul>
+        <li v-for="(p, index) in filPeople" :key="p.id">
+          {{p.name}}-{{p.age}}-{{p.gender}}
+        </li>
+      </ul>
+    </div>
+  </body>
+  <script src="../js/vue.js"></script>
+  <script async>
+    Vue.config.productionTip = false;
+  </script>
+  <script>
+    // 用watch實現
+    // #region
+    // new Vue({
+    //   el: "#root",
+    //   data: {
+    //     keyword: "",
+    //     people: [
+    //       { id: "001", name: "馬冬梅", age: 18, gender: "女" },
+    //       { id: "002", name: "周冬雨", age: 20, gender: "女" },
+    //       { id: "003", name: "周杰倫", age: 21, gender: "男" },
+    //       { id: "004", name: "溫兆倫", age: 22, gender: "男" },
+    //     ],
+    //     filPeople: [],
+    //   },
+    //   watch: {
+    //     keyword: {
+    //       immediate: true,
+    //       handler(val) {
+    //         this.filPeople = this.people.filter((p) => {
+    //           return p.name.indexOf(val) !== -1;
+    //         });
+    //       },
+    //     },
+    //   },
+    // });
+    // #endregion
+
+    new Vue({
+      el: "#root",
+      data: {
+        keyword: "",
+        people: [
+          { id: "001", name: "馬冬梅", age: 18, gender: "女" },
+          { id: "002", name: "周冬雨", age: 20, gender: "女" },
+          { id: "003", name: "周杰倫", age: 21, gender: "男" },
+          { id: "004", name: "溫兆倫", age: 22, gender: "男" },
+        ],
+      },
+      computed: {
+        filPeople() {
+          return this.people.filter((p) => {
+            return p.name.indexOf(this.keyword) !== -1;
+          });
+        },
+      },
+    });
+  </script>
+</html>

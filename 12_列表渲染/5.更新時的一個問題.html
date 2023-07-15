@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>更新時的一個問題</title>
+  </head>
+  <body>
+    <div id="root">
+      <h2>人員列表</h2>
+      <button @click="updateMei">更新馬冬梅的消息</button>
+      <ul>
+        <li v-for="(p, index) in people" :key="p.id">
+          {{p.name}}-{{p.age}}-{{p.gender}}
+        </li>
+      </ul>
+    </div>
+  </body>
+  <script src="../js/vue.js"></script>
+  <script async>
+    Vue.config.productionTip = false;
+  </script>
+  <script>
+    const vm = new Vue({
+      el: "#root",
+      data: {
+        people: [
+          { id: "001", name: "馬冬梅", age: 30, gender: "女" },
+          { id: "002", name: "周冬雨", age: 31, gender: "女" },
+          { id: "003", name: "周杰倫", age: 18, gender: "男" },
+          { id: "004", name: "溫兆倫", age: 19, gender: "男" },
+        ],
+      },
+      methods: {
+        updateMei() {
+          // this.people[0].name = "馬老師"; // 奏效
+          // this.people[0].age = "50"; // 奏效
+          // this.people[0].gender = "男"; // 奏效
+          // this.people[0] = { id: "001", name: "馬老師", age: 50, gender: "男" }; // 不奏效
+          this.people.splice(0, 1, {
+            id: "001",
+            name: "馬老師",
+            age: 50,
+            gender: "男",
+          });
+        },
+      },
+    });
+  </script>
+</html>
